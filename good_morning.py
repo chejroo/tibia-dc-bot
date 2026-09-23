@@ -17,8 +17,8 @@ from zoneinfo import ZoneInfo
 TOKEN = os.environ.get("DISCORD_TOKEN", "").strip()
 CHANNEL = os.environ.get("DISCORD_CHANNEL", "").strip()
 MESSAGE = os.environ.get("MESSAGE", "").strip() or (
-    "/book character:Druid Fireblade spot:Book World - Chapter IIl "
-    "date:24.09.2026 start:12:00 end:14:00"
+    "/book character:Druid Fireblade spot:Nightmare Isle "
+    "date:24.09.2026 start:03:00 end:06:00"
 )
 SEND_TIME = os.environ.get("SEND_TIME", "").strip() or "08:00"
 TIMEZONE = os.environ.get("TIMEZONE", "").strip() or "Europe/Warsaw"
