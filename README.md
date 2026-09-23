@@ -19,3 +19,26 @@ Set at least one of these:
 ## Test
 
 Actions tab → **Booking reminder** → Run workflow (leave "Send immediately" checked). You should get the message within a minute.
+
+---
+
+# Daily "good morning"
+
+Every day at **08:00 Europe/Warsaw** (CEST/CET handled automatically), `good_morning.py` posts `Hello, good morning! ☀️` to a channel **from your own account**.
+
+> ⚠️ Automating a user account is against Discord's Terms of Service and can get your account banned. Your token gives full access to your account: keep it only in the secret below, never commit it, and if it leaks, change your password (that invalidates the token).
+
+## Setup (repo → Settings → Secrets and variables → Actions)
+
+| Secret | What |
+|---|---|
+| `DISCORD_TOKEN` | Your account token |
+| `DISCORD_CHANNEL` | Channel link (right-click channel → Copy Link, e.g. `https://discord.com/channels/111/222`) or just the channel ID |
+
+Optional **variable** (Variables tab): `GOOD_MORNING_MESSAGE` to change the text.
+
+To change the time, edit `SEND_TIME`/`TIMEZONE` defaults in `good_morning.py` and the two crons in `.github/workflows/good-morning.yml` (they must start ~30 min before the send time, one for summer and one for winter).
+
+## Test
+
+Actions tab → **Good morning** → Run workflow (leave "Send immediately" checked).
