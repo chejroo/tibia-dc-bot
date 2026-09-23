@@ -1,0 +1,29 @@
+name: Booking reminder
+
+on:
+  schedule:
+    # 07:30 UTC on 24 Sep (= 09:30 CEST). GitHub cron can start late,
+    # so the script starts early and waits until exactly 10:00:00 CEST.
+    - cron: "30 7 24 9 *"
+  workflow_dispatch:
+    inputs:
+      send_now:
+        description: "Send immediately (test)"
+        type: boolean
+        default: true
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python remind.py
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          SEND_NOW: ${{ github.event_name == 'workflow_dispatch' && inputs.send_now && 'true' || 'false' }}
