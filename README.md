@@ -35,7 +35,9 @@ Every day at **08:00 Europe/Warsaw** (CEST/CET handled automatically), `good_mor
 | `DISCORD_TOKEN` | Your account token |
 | `DISCORD_CHANNEL` | Channel link (right-click channel → Copy Link, e.g. `https://discord.com/channels/111/222`) or just the channel ID |
 
-Optional **variable** (Variables tab): `GOOD_MORNING_MESSAGE` to change the text.
+Optional **variables** (Variables tab): `GOOD_MORNING_MESSAGE` to change the text, `GIF_QUERY` (e.g. `hello`) to also post a Tenor GIF after it, like `/gif query:hello`.
+
+Manual runs can also take a one-off message and GIF search.
 
 To change the time, edit `SEND_TIME`/`TIMEZONE` defaults in `good_morning.py` and the two crons in `.github/workflows/good-morning.yml` (they must start ~30 min before the send time, one for summer and one for winter).
 

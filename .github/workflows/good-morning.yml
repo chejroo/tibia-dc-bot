@@ -12,6 +12,14 @@ on:
         description: "Send immediately (test)"
         type: boolean
         default: true
+      message:
+        description: "Message for this run only (empty = the daily one)"
+        type: string
+        default: ""
+      gif_query:
+        description: "Also send a Tenor GIF for this search, like /gif query:hello (empty = none)"
+        type: string
+        default: ""
 
 jobs:
   greet:
@@ -26,6 +34,7 @@ jobs:
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
-          MESSAGE: ${{ vars.GOOD_MORNING_MESSAGE }}
+          MESSAGE: ${{ inputs.message || vars.GOOD_MORNING_MESSAGE }}
+          GIF_QUERY: ${{ inputs.gif_query || vars.GIF_QUERY }}
           SCHEDULE: ${{ github.event.schedule }}
           SEND_NOW: ${{ github.event_name == 'workflow_dispatch' && inputs.send_now && 'true' || 'false' }}

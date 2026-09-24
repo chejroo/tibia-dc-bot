@@ -7,10 +7,12 @@ keep it only in a GitHub secret, never in code."""
 import datetime as dt
 import json
 import os
+import random
 import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from zoneinfo import ZoneInfo
 
@@ -20,6 +22,8 @@ MESSAGE = os.environ.get("MESSAGE", "").strip() or (
     "/book character:Druid Fireblade spot:Nightmare Isle "
     "date:24.09.2026 start:03:00 end:06:00"
 )
+# Optional: after the message, also post a Tenor GIF for this search (like /gif query:...).
+GIF_QUERY = os.environ.get("GIF_QUERY", "").strip()
 SEND_TIME = os.environ.get("SEND_TIME", "").strip() or "08:00"
 TIMEZONE = os.environ.get("TIMEZONE", "").strip() or "Europe/Warsaw"
 # Cron that started this run, e.g. "30 5 * * *" (empty for manual runs).
@@ -53,10 +57,23 @@ def wait_until(target):
         time.sleep(min(left, 30))
 
 
-def send(cid):
+def find_gif(query):
+    """Returns a random tenor.com GIF link for the search; Discord embeds it as a GIF."""
+    slug = urllib.parse.quote(re.sub(r"\s+", "-", query.strip().lower()))
+    req = urllib.request.Request(f"https://tenor.com/search/{slug}-gifs",
+                                 headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        html = r.read().decode("utf-8", "replace")
+    links = sorted(set(re.findall(r"/view/[\w-]+-gif-\d+", html)))
+    if not links:
+        sys.exit(f"No GIFs found on Tenor for {query!r}")
+    return "https://tenor.com" + random.choice(links[:20])
+
+
+def send(cid, text):
     req = urllib.request.Request(
         f"https://discord.com/api/v9/channels/{cid}/messages",
-        data=json.dumps({"content": MESSAGE}).encode(),
+        data=json.dumps({"content": text}).encode(),
         headers={"Authorization": TOKEN, "Content-Type": "application/json",
                  "User-Agent": "good-morning"},
         method="POST",
@@ -88,7 +105,11 @@ def main():
                 return
         wait_until(target)
 
-    send(cid)
+    send(cid, MESSAGE)
+    if GIF_QUERY:
+        gif = find_gif(GIF_QUERY)
+        print("GIF:", gif)
+        send(cid, gif)
 
 
 if __name__ == "__main__":
