@@ -1,11 +1,12 @@
 name: Good morning
 
 on:
-  schedule:
-    # 08:00 Europe/Warsaw is 06:00 UTC in summer and 07:00 UTC in winter.
-    # Both runs start 30 min early; the script picks the right one and waits.
-    - cron: "30 5 * * *"
-    - cron: "30 6 * * *"
+  # Daily schedule disabled (Discord limited the account). To re-enable, restore:
+  # schedule:
+  #   # 08:00 Europe/Warsaw is 06:00 UTC in summer and 07:00 UTC in winter.
+  #   # Both runs start 30 min early; the script picks the right one and waits.
+  #   - cron: "30 5 * * *"
+  #   - cron: "30 6 * * *"
   workflow_dispatch:
     inputs:
       send_now:

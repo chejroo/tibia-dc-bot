@@ -24,7 +24,7 @@ Actions tab → **Booking reminder** → Run workflow (leave "Send immediately" 
 
 # Daily "good morning"
 
-Every day at **08:00 Europe/Warsaw** (CEST/CET handled automatically), `good_morning.py` posts `/book character:Druid Fireblade spot:Nightmare Isle date:24.09.2026 start:03:00 end:06:00` (as plain text) to a channel **from your own account**.
+**Daily schedule is currently disabled** (only manual runs). When enabled: every day at **08:00 Europe/Warsaw** (CEST/CET handled automatically), `good_morning.py` posts `/book character:Druid Fireblade spot:Nightmare Isle date:24.09.2026 start:03:00 end:06:00` (as plain text) to a channel **from your own account**.
 
 > ⚠️ Automating a user account is against Discord's Terms of Service and can get your account banned. Your token gives full access to your account: keep it only in the secret below, never commit it, and if it leaks, change your password (that invalidates the token).
 
